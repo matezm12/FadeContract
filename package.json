@@ -17,6 +17,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@openzeppelin/contracts-ethereum-package": "^3.0.0"
+    "@openzeppelin/contracts-ethereum-package": "^3.0.0",
+    "@truffle/hdwallet-provider": "^2.1.9",
+    "dotenv": "^16.0.3"
   }
 }

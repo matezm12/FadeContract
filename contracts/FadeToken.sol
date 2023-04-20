@@ -1,12 +1,11 @@
 pragma solidity ^0.8.0;
 
-
-
 contract FadeToken {
     string public name = "Fade";
     string public symbol = "$FADE";
     uint8 public decimals = 18;
     uint256 public totalSupply = 69000000000 * 10**uint256(decimals);
+    uint256 public maxBalance = totalSupply * 75 / 1000; // 7.5% of total supply
 
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
@@ -20,6 +19,7 @@ contract FadeToken {
 
     function transfer(address to, uint256 value) public returns (bool success) {
         require(balanceOf[msg.sender] >= value);
+        require(balanceOf[to] + value <= maxBalance); // check if receiver's balance will not exceed max limit
         balanceOf[msg.sender] -= value;
         balanceOf[to] += value;
         emit Transfer(msg.sender, to, value);
@@ -29,6 +29,7 @@ contract FadeToken {
     function transferFrom(address from, address to, uint256 value) public returns (bool success) {
         require(value <= balanceOf[from]);
         require(value <= allowance[from][msg.sender]);
+        require(balanceOf[to] + value <= maxBalance); // check if receiver's balance will not exceed max limit
         balanceOf[from] -= value;
         balanceOf[to] += value;
         allowance[from][msg.sender] -= value;
